@@ -6,13 +6,13 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.1.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.bezkoder</groupId>
 	<artifactId>spring-boot-jpa-h2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-boot-jpa-h2</name>
-	<description>Spring Boot JPA + H2 database example - CRUD Rest Apis</description>
+	<description>Rest API con Spring Data JPA + H2</description>
 
 	<properties>
 		<java.version>17</java.version>
