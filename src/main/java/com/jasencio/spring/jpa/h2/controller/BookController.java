@@ -62,55 +62,43 @@ public class BookController {
          return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
    }
-
+   //poo
    @PutMapping("/books/{id}")
    public ResponseEntity<Book> updateBook(@PathVariable("id") long id, @RequestBody Book book) {
-      Optional<Book> bookData = bookRepository.findById(id);
-
-      if (bookData.isPresent()) {
-         Book DataBook = bookData.get();
-         DataBook.setTitle(book.getTitle());
-         DataBook.setDescription(book.getDescription());
-         DataBook.setPublished(book.isPublished());
-         return new ResponseEntity<>(bookRepository.save(DataBook), HttpStatus.OK);
-      } else {
-         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      try {
+         Optional<Book> bookData = bookRepository.findById(id);
+         BookServiceImpl BookService = new BookServiceImpl();
+         Book DataBook = BookService.updateBook(bookRepository, book, id);
+         if (DataBook == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+         } else {
+            return new ResponseEntity<>(bookRepository.save(DataBook), HttpStatus.OK);
+         }
+      } catch (Exception e) {
+         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
    }
-
+   //poo
    @DeleteMapping("/books/{id}")
    public ResponseEntity<HttpStatus> deleteBook(@PathVariable("id") long id) {
       try {
-         bookRepository.deleteById(id);
+         BookServiceImpl BookService = new BookServiceImpl();
+         BookService.deleteBook(bookRepository, id);
          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       } catch (Exception e) {
          return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
    }
-
+   //poo
    @DeleteMapping("/books")
    public ResponseEntity<HttpStatus> deleteAllBooks() {
       try {
-         bookRepository.deleteAll();
+         BookServiceImpl BookService = new BookServiceImpl();
+         BookService.deleteAll(bookRepository);
          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       } catch (Exception e) {
          return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
 
    }
-
-   @GetMapping("/books/published")
-   public ResponseEntity<List<Book>> findByPublished() {
-      try {
-         List<Book> books = bookRepository.findByPublished(true);
-
-         if (books.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-         }
-         return new ResponseEntity<>(books, HttpStatus.OK);
-      } catch (Exception e) {
-         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-   }
-
 }
